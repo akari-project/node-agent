@@ -23,10 +23,10 @@
 
 | 文件 | 修改原因 | 冲突风险 | 提交 | 日期 |
 |---|---|---|---|---|
-| `go.mod` | `replace` 改为本组织 `akari-project/sing-box`、`akari-project/xray-core` 的 `panel-base`（AGT-04，M0-02）。两个提交分别是原 `replace` 所指的 `2e665cb7`、`f479355` 加一个文档提交，内核代码不变。`replace` 只能写在根模块的 `go.mod` 中 | 中：上游升级内核时会改这两行；合入时保留本组织的模块路径，改指本组织 fork 中对应的新提交（`core-upgrade` Skill） | SHA_PENDING | 2026-09-24 |
-| `go.sum` | 随 `go.mod` 的 `replace` 更新校验和（M0-02） | 低：由 `go mod tidy` 重新生成 | SHA_PENDING | 2026-09-24 |
-| `Makefile` | 末尾加 `include ci.mk`，引入 `make ci` 等检查目标（spec/42 42.2，M0-02）；目标定义放在新文件 `ci.mk`，不改原有目标 | 低：只在文件末尾加两行 | SHA_PENDING | 2026-09-24 |
-| `.github/workflows/ci.yml` | 改为本组织 CI：`make ci`（SPDX 头、依赖许可证、`-race` 测试、构建）、交叉构建、REUSE lint、govulncheck（M0-02）。移除推送 `ghcr.io/cedar2025` 镜像与创建 `dev` 预发布的任务，发布流程在 M3-07、M3-08 重建 | 低：不再跟随上游 CI，合入时保留本组织版本 | SHA_PENDING | 2026-09-24 |
+| `go.mod` | `replace` 改为本组织 `akari-project/sing-box`、`akari-project/xray-core` 的 `panel-base`（AGT-04，M0-02）。两个提交分别是原 `replace` 所指的 `2e665cb7`、`f479355` 加一个文档提交，内核代码不变。`replace` 只能写在根模块的 `go.mod` 中 | 中：上游升级内核时会改这两行；合入时保留本组织的模块路径，改指本组织 fork 中对应的新提交（`core-upgrade` Skill） | 0b29034 | 2026-09-24 |
+| `go.sum` | 随 `go.mod` 的 `replace` 更新校验和（M0-02） | 低：由 `go mod tidy` 重新生成 | 0b29034 | 2026-09-24 |
+| `Makefile` | 末尾加 `include ci.mk`，引入 `make ci` 等检查目标（spec/42 42.2，M0-02）；目标定义放在新文件 `ci.mk`，不改原有目标 | 低：只在文件末尾加两行 | 0b29034 | 2026-09-24 |
+| `.github/workflows/ci.yml` | 改为本组织 CI：`make ci`（SPDX 头、依赖许可证、`-race` 测试、构建）、交叉构建、REUSE lint、govulncheck（M0-02）。移除推送 `ghcr.io/cedar2025` 镜像与创建 `dev` 预发布的任务，发布流程在 M3-07、M3-08 重建 | 低：不再跟随上游 CI，合入时保留本组织版本 | 0b29034 | 2026-09-24 |
 
 ## 预计修改的原有文件（M3，供评估冲突风险）
 
