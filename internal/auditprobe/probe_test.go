@@ -1,6 +1,6 @@
-//go:build auditprobe
-
 // SPDX-License-Identifier: GPL-3.0-or-later
+
+//go:build auditprobe
 
 // Package auditprobe holds the M0-04 audit probes for spec/21 AGT-12.
 //

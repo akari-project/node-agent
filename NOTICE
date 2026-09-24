@@ -1,0 +1,41 @@
+SPDX-License-Identifier: GPL-3.0-or-later
+
+node-agent
+Copyright akari-project contributors
+
+node-agent is the node program of akari-project. The program as a whole,
+including the binaries built from this repository, is distributed under the
+GNU General Public License, version 3 or (at your option) any later version.
+See LICENSES/GPL-3.0-or-later.txt.
+
+This repository is a fork of Xboard-Node:
+
+  Xboard-Node
+  https://github.com/cedar2025/Xboard-Node
+  Copyright Xboard-Node contributors
+  Licensed under the Mozilla Public License 2.0 (LICENSES/MPL-2.0.txt)
+  Fork point: 0a29338e1f102a462363ce3527417029f89bab28
+
+Files that originate from Xboard-Node remain under MPL-2.0, including after
+modification by akari-project. They are listed by path in REUSE.toml;
+modifications to them are recorded in UPSTREAM.md. The MPL-2.0 files are
+combined with GPL-3.0-or-later files into a Larger Work as permitted by
+MPL-2.0 section 3.3. Files added by akari-project carry an
+SPDX-License-Identifier header and are licensed under GPL-3.0-or-later.
+
+The binaries embed the following proxy kernels, built from akari-project
+forks pinned to the commits that Xboard-Node uses (see go.mod):
+
+  sing-box
+  https://github.com/SagerNet/sing-box (fork: https://github.com/akari-project/sing-box)
+  Copyright nekohasekai and contributors
+  Licensed under GPL-3.0-or-later, with the additional term stated in its
+  LICENSE file
+
+  Xray-core
+  https://github.com/XTLS/Xray-core (fork: https://github.com/akari-project/xray-core)
+  Copyright Project X contributors
+  Licensed under MPL-2.0
+
+Licenses of the other Go dependencies are checked by `make licenses`;
+dependencies outside the allowed list are recorded in LICENSE-EXCEPTIONS.

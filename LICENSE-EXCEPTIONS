@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# 依赖许可证例外登记（spec/42 42.2）。由 scripts/check_licenses.py 读取。
+# 允许清单以外、或许可证识别器无法归类（Unknown）的依赖，必须在此逐个模块登记理由。
+# 格式：模块路径<空白>人工核对的许可证<空白>理由（到行尾）。以 # 开头的行为注释。
+# 核对日期：2026-09-24。
+
+# sagernet 系列与 anytls：LICENSE 是“GPL-3.0 或更高版本”的简短声明（版权行 + 标准授权段落），
+# 没有附 GPL 全文，识别器因此报 Unknown。人工核对为 GPL-3.0-or-later，与本仓库许可证相同。
+github.com/sagernet/sing            GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-quic       GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-tun        GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-shadowsocks GPL-3.0-or-later 简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-shadowsocks2 GPL-3.0-or-later 简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-vmess      GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-shadowtls  GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/sing-mux        GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/sagernet/fswatch         GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+github.com/anytls/sing-anytls       GPL-3.0-or-later  简短声明，识别器报 Unknown；人工核对
+# sing-box 的 LICENSE 另附一条附加条款：“no derivative work may use the name or imply association
+# with this application without prior consent”。本仓库的产物不使用 sing-box 名称；该条款对组织内
+# fork 仓库名的影响列为未决问题（M0-02）。
+github.com/sagernet/sing-box        GPL-3.0-or-later  简短声明加名称使用附加条款；人工核对
+
+# 公有领域贡献，可与 GPL-3.0-or-later 组合分发。
+github.com/zeebo/blake3             CC0-1.0           公有领域贡献，与 GPL-3.0 兼容
+github.com/logrusorgru/aurora       Unlicense         公有领域贡献，与 GPL-3.0 兼容

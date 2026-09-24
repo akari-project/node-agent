@@ -43,3 +43,6 @@ install: build
 		sudo cp config.yml.example /etc/xboard-node/config.yml; \
 		echo "Config copied to /etc/xboard-node/config.yml - please edit it"; \
 	fi
+
+# 本组织新增的 CI 目标（make ci 等），见 ci.mk 与 UPSTREAM.md。
+include ci.mk
