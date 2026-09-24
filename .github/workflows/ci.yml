@@ -1,51 +1,44 @@
 name: CI
 
+# 本组织的 CI（spec/42 42.2）。上游的 Docker 推送与 dev 预发布任务指向 cedar2025 的镜像与发布，
+# 已移除；发布流程在 M3-07、M3-08 按 spec/42 42.5 重新建立。修改登记见 UPSTREAM.md。
+
 on:
   push:
-    branches: [main, master, dev]
+    branches: [dev]
     tags: ["v*"]
   pull_request:
-    branches: [main, master]
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+permissions:
+  contents: read
 
 jobs:
-  test:
-    name: Test
+  # make ci：SPDX 头检查、依赖许可证扫描、make test（-race）、make build。
+  ci:
+    name: make ci
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: '1.25.7'
-          cache: true
-
-      - name: Run tests
-        run: make test
+          go-version-file: go.mod
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: make ci
 
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: test
+    needs: ci
     strategy:
       matrix:
-        include:
-          - goos: linux
-            goarch: amd64
-          - goos: linux
-            goarch: arm64
+        goarch: [amd64, arm64]
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: '1.25.7'
-          cache: true
-
+          go-version-file: go.mod
       - name: Build
         env:
           VERSION: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha }}
@@ -55,74 +48,28 @@ jobs:
           else
             make build-linux-arm64
           fi
-
-      - name: Upload xboard-node artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: xboard-node-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: xboard-node-${{ matrix.goos }}-${{ matrix.goarch }}
+          name: node-agent-linux-${{ matrix.goarch }}
+          path: |
+            xboard-node-linux-${{ matrix.goarch }}
+            xbctl-linux-${{ matrix.goarch }}
 
-      - name: Upload xbctl artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: xbctl-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: xbctl-${{ matrix.goos }}-${{ matrix.goarch }}
-
-  build-docker:
-    name: Build & Push Docker Image
+  reuse:
+    name: REUSE lint
     runs-on: ubuntu-latest
-    needs: test
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - uses: fsfe/reuse-action@v5
 
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ghcr.io/cedar2025/xboard-node:latest
-            ghcr.io/cedar2025/xboard-node:${{ github.sha }}
-            ${{ startsWith(github.ref, 'refs/tags/') && format('ghcr.io/cedar2025/xboard-node:{0}', github.ref_name) || '' }}
-
-  release:
-    name: Release
+  # 依赖中已知漏洞需要升级依赖与内核（spec/21 AGT-03），在此之前不阻塞合并。
+  govulncheck:
+    name: govulncheck (non-blocking)
     runs-on: ubuntu-latest
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/dev'
-    permissions:
-      contents: write
+    continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          merge-multiple: true
-          path: dist
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'dev' }}
-          make_latest: ${{ startsWith(github.ref, 'refs/tags/') }}
-          files: |
-            dist/xboard-node-linux-amd64
-            dist/xboard-node-linux-arm64
-            dist/xbctl-linux-amd64
-            dist/xbctl-linux-arm64
+          go-version-file: go.mod
+      - run: make vulncheck

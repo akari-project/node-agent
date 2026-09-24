@@ -23,8 +23,10 @@
 
 | 文件 | 修改原因 | 冲突风险 | 提交 | 日期 |
 |---|---|---|---|---|
-
-（M0-04 没有修改原有文件。）
+| `go.mod` | `replace` 改为本组织 `akari-project/sing-box`、`akari-project/xray-core` 的 `panel-base`（AGT-04，M0-02）。两个提交分别是原 `replace` 所指的 `2e665cb7`、`f479355` 加一个文档提交，内核代码不变。`replace` 只能写在根模块的 `go.mod` 中 | 中：上游升级内核时会改这两行；合入时保留本组织的模块路径，改指本组织 fork 中对应的新提交（`core-upgrade` Skill） | SHA_PENDING | 2026-09-24 |
+| `go.sum` | 随 `go.mod` 的 `replace` 更新校验和（M0-02） | 低：由 `go mod tidy` 重新生成 | SHA_PENDING | 2026-09-24 |
+| `Makefile` | 末尾加 `include ci.mk`，引入 `make ci` 等检查目标（spec/42 42.2，M0-02）；目标定义放在新文件 `ci.mk`，不改原有目标 | 低：只在文件末尾加两行 | SHA_PENDING | 2026-09-24 |
+| `.github/workflows/ci.yml` | 改为本组织 CI：`make ci`（SPDX 头、依赖许可证、`-race` 测试、构建）、交叉构建、REUSE lint、govulncheck（M0-02）。移除推送 `ghcr.io/cedar2025` 镜像与创建 `dev` 预发布的任务，发布流程在 M3-07、M3-08 重建 | 低：不再跟随上游 CI，合入时保留本组织版本 | SHA_PENDING | 2026-09-24 |
 
 ## 预计修改的原有文件（M3，供评估冲突风险）
 
@@ -44,8 +46,8 @@
 | `internal/service/service.go` | 原则上不修改；独立模式继续使用。如需导出校验函数，只做导出级改动 | 中 | M3-01 |
 | `internal/config/config.go` | 节点模式的配置只保留控制面地址与状态目录 | 中：上游常增字段；新字段放在新结构中 | M3-02 |
 | `Makefile` | `test` 加内核构建标签；新增 `conformance` 目标 | 低 | M3-06 |
-| `install.sh`、`Dockerfile`、`.github/workflows/ci.yml` | 参数改为 `--server`、`--enroll-token`；镜像名与 volume；REUSE 与 SPDX 检查 | 中：`install.sh` 上游改动频繁，可能整体重写为新文件，旧文件停用 | M3-07、M3-08 |
-| `go.mod` | `replace` 改为本组织的内核副本（AGT-04）；模块路径是否改名待定 | 中：每次上游升级内核都会改 `replace` | M3-06 |
+| `install.sh`、`Dockerfile`、`.github/workflows/ci.yml` | 参数改为 `--server`、`--enroll-token`；镜像名与 volume；发布任务（镜像、签名、SBOM，spec/42 42.5） | 中：`install.sh` 上游改动频繁，可能整体重写为新文件，旧文件停用 | M3-07、M3-08 |
+| `go.mod` | 内核补丁（M3-06）落在本组织 fork 后，`replace` 改指新提交；模块路径不改名（AGT-01） | 中：每次上游升级内核都会改 `replace` | M3-06 |
 | `internal/panel/*`、`internal/controlplane/panel.go`、`internal/controlplane/machine.go`、`internal/model/panel.go` | 不修改，节点模式不再引用；是否删除见 FORK_PLAN 未决问题 | — | M3-01 |
 
 ## 已合入的上游提交
@@ -60,3 +62,4 @@
 - 与 Xboard 面板的通信层：`internal/panel/`、`internal/controlplane/panel.go`、`internal/controlplane/machine.go`、`internal/model/panel.go`，以及 `cmd/xbctl` 中与面板绑定相关的部分。
 - 全局 API Key 鉴权与 `kernel.type` 的本地优先逻辑。
 - `cmd/xbctl`（由 `cmd/agentctl` 取代）；`install.sh` 中与 Xboard 面板参数相关的部分。
+- `.github/workflows/`：CI 与发布流程由本组织维护（spec/42）。

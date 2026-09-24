@@ -1,0 +1,134 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# REUSE 登记（spec/02 CONV-25，spec/21 AGT-02）。
+# - 本组织新增的文件为 GPL-3.0-or-later，在文件头带 SPDX-License-Identifier（由 make check-spdx 检查）。
+# - 来自 Xboard-Node 的原有文件没有逐文件的许可证声明，不补头，在下方按路径逐个登记为 MPL-2.0。
+#   列表取自分叉基点 0a29338 的全部文件（git ls-tree -r --name-only 0a29338）。
+#   合入上游新增的文件时，把路径加入该列表（UPSTREAM.md 的“已合入的上游提交”同步登记）；
+#   原有文件被本组织修改后仍为 MPL-2.0，留在列表中。
+version = 1
+
+# 版权声明对全部文件生效，与文件头中的许可证标识合并。
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "akari-project contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# 本组织新增、但无法或不宜加注释头的文件：Claude Code 配置（JSON、带 frontmatter 的 SKILL.md、hook 脚本）。
+[[annotations]]
+path = [
+  "CLAUDE.md",
+  ".claude/**",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "akari-project contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# 来自 Xboard-Node（https://github.com/cedar2025/Xboard-Node，分叉基点 0a29338）的原有文件。
+[[annotations]]
+path = [
+  ".github/workflows/ci.yml",
+  ".gitignore",
+  "Dockerfile",
+  "Makefile",
+  "README.md",
+  "cmd/xbctl/main.go",
+  "cmd/xboard-node/main.go",
+  "config.yml.example",
+  "docs-custom-outbounds.md",
+  "docs-custom-routes.md",
+  "docs-dns-providers.md",
+  "go.mod",
+  "go.sum",
+  "install.sh",
+  "internal/cert/cert.go",
+  "internal/cert/cert_test.go",
+  "internal/cert/dnsproviders/alidns.go",
+  "internal/cert/dnsproviders/azure.go",
+  "internal/cert/dnsproviders/bunny.go",
+  "internal/cert/dnsproviders/cloudflare.go",
+  "internal/cert/dnsproviders/desec.go",
+  "internal/cert/dnsproviders/digitalocean.go",
+  "internal/cert/dnsproviders/duckdns.go",
+  "internal/cert/dnsproviders/gandi.go",
+  "internal/cert/dnsproviders/godaddy.go",
+  "internal/cert/dnsproviders/googleclouddns.go",
+  "internal/cert/dnsproviders/helpers.go",
+  "internal/cert/dnsproviders/hetzner.go",
+  "internal/cert/dnsproviders/huaweicloud.go",
+  "internal/cert/dnsproviders/linode.go",
+  "internal/cert/dnsproviders/namecheap.go",
+  "internal/cert/dnsproviders/namesilo.go",
+  "internal/cert/dnsproviders/netlify.go",
+  "internal/cert/dnsproviders/ovh.go",
+  "internal/cert/dnsproviders/porkbun.go",
+  "internal/cert/dnsproviders/registry.go",
+  "internal/cert/dnsproviders/registry_test.go",
+  "internal/cert/dnsproviders/route53.go",
+  "internal/cert/dnsproviders/tencentcloud.go",
+  "internal/cert/dnsproviders/vultr.go",
+  "internal/config/config.go",
+  "internal/config/config_test.go",
+  "internal/config/standalone.go",
+  "internal/config/watcher.go",
+  "internal/controlplane/local.go",
+  "internal/controlplane/local_test.go",
+  "internal/controlplane/machine.go",
+  "internal/controlplane/mailbox.go",
+  "internal/controlplane/mailbox_test.go",
+  "internal/controlplane/panel.go",
+  "internal/controlplane/panel_test.go",
+  "internal/controlplane/types.go",
+  "internal/kernel/custom_route_compile.go",
+  "internal/kernel/customcfg.go",
+  "internal/kernel/geo.go",
+  "internal/kernel/geodata/geodata.go",
+  "internal/kernel/kernel.go",
+  "internal/kernel/singbox/config.go",
+  "internal/kernel/singbox/config_test.go",
+  "internal/kernel/singbox/conntracker.go",
+  "internal/kernel/singbox/singbox.go",
+  "internal/kernel/singbox/singbox_test.go",
+  "internal/kernel/xray/config.go",
+  "internal/kernel/xray/config_test.go",
+  "internal/kernel/xray/dispatcher.go",
+  "internal/kernel/xray/dispatcher_test.go",
+  "internal/kernel/xray/xray.go",
+  "internal/kernel/xray/xray_test.go",
+  "internal/limiter/limiter.go",
+  "internal/limiter/limiter_test.go",
+  "internal/limiter/speedtracker.go",
+  "internal/limiter/speedtracker_test.go",
+  "internal/machine/machine.go",
+  "internal/model/custom_config_tags.go",
+  "internal/model/custom_config_tags_test.go",
+  "internal/model/custom_outbound_support.go",
+  "internal/model/custom_outbound_validate.go",
+  "internal/model/custom_outbound_validate_test.go",
+  "internal/model/custom_route.go",
+  "internal/model/custom_route_support.go",
+  "internal/model/custom_route_validate.go",
+  "internal/model/custom_route_validate_test.go",
+  "internal/model/panel.go",
+  "internal/model/panel_test.go",
+  "internal/model/standalone.go",
+  "internal/model/standalone_test.go",
+  "internal/model/types.go",
+  "internal/model/validate.go",
+  "internal/monitor/monitor.go",
+  "internal/nlog/nlog.go",
+  "internal/panel/client.go",
+  "internal/panel/client_test.go",
+  "internal/panel/types.go",
+  "internal/panel/types_test.go",
+  "internal/panel/ws.go",
+  "internal/panel/ws_test.go",
+  "internal/service/service.go",
+  "internal/service/service_test.go",
+  "internal/tracker/tracker.go",
+  "internal/tracker/tracker_test.go",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "Xboard-Node contributors <https://github.com/cedar2025/Xboard-Node>"
+SPDX-License-Identifier = "MPL-2.0"
